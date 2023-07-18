@@ -1,0 +1,122 @@
+object FormBackup: TFormBackup
+  Left = 0
+  Top = 0
+  Caption = 'Configura'#231#227'o de Servi'#231'o de Backup'
+  ClientHeight = 717
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBoxBackup: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 635
+    Height = 249
+    Align = alTop
+    Caption = 'Backup'
+    TabOrder = 0
+    ExplicitLeft = 8
+    object LabelLocalizar: TLabel
+      Left = 24
+      Top = 40
+      Width = 130
+      Height = 13
+      Caption = 'Localizar arquivo de origem'
+    end
+    object ButtonSelecionarArquivo: TButton
+      Left = 176
+      Top = 40
+      Width = 75
+      Height = 25
+      Caption = 'Selecionar'
+      TabOrder = 0
+    end
+    object ListBoxBackup: TListBox
+      Left = 24
+      Top = 88
+      Width = 121
+      Height = 97
+      ItemHeight = 13
+      TabOrder = 1
+    end
+    object ButtonRemover: TButton
+      Left = 280
+      Top = 112
+      Width = 105
+      Height = 25
+      Caption = 'Remover da Lista'
+      TabOrder = 2
+    end
+    object ButtonBackupManual: TButton
+      Left = 280
+      Top = 160
+      Width = 97
+      Height = 25
+      Caption = 'Backup Manual'
+      TabOrder = 3
+    end
+  end
+  object GroupBoxConfiguracao: TGroupBox
+    Left = 0
+    Top = 249
+    Width = 635
+    Height = 105
+    Align = alTop
+    Caption = 'Configura'#231#245'es'
+    TabOrder = 1
+    ExplicitLeft = 24
+    ExplicitTop = 273
+    object CheckBoxCompactacao: TCheckBox
+      Left = 64
+      Top = 56
+      Width = 187
+      Height = 17
+      Caption = 'Usar compacta'#231#227'o nods aruivos'
+      TabOrder = 0
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 88
+    Top = 538
+    Width = 185
+    Height = 105
+    Caption = 'GroupBox1'
+    TabOrder = 2
+  end
+  object GroupBox4: TGroupBox
+    Left = 312
+    Top = 568
+    Width = 185
+    Height = 105
+    Caption = 'GroupBox1'
+    TabOrder = 3
+  end
+  object RadioGroupTipoCompactacao: TRadioGroup
+    Left = 0
+    Top = 354
+    Width = 635
+    Height = 105
+    Align = alTop
+    Caption = 'Tipo de compacta'#231#227'o'
+    ItemIndex = 0
+    Items.Strings = (
+      'WinRar'
+      'WinZip')
+    TabOrder = 4
+    Visible = False
+    ExplicitLeft = 296
+    ExplicitTop = 448
+    ExplicitWidth = 185
+  end
+  object OpenDialogAdicionarArquivo: TOpenDialog
+    Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
+    Left = 568
+    Top = 192
+  end
+end

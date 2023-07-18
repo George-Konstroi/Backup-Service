@@ -35,48 +35,38 @@ object FormBackup: TFormBackup
     ExplicitWidth = 669
     object ListBoxBackup: TListBox
       Left = 12
-      Top = 57
+      Top = 65
       Width = 406
-      Height = 151
+      Height = 143
       Align = alClient
       ItemHeight = 13
       TabOrder = 0
-      ExplicitLeft = 24
-      ExplicitTop = 88
-      ExplicitWidth = 121
-      ExplicitHeight = 97
+      ExplicitLeft = 11
+      ExplicitTop = 59
     end
     object Panel1: TPanel
       Left = 12
       Top = 25
       Width = 406
-      Height = 32
+      Height = 40
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 424
       object LabelLocalizar: TLabel
         AlignWithMargins = True
-        Left = 4
-        Top = 4
+        Left = 5
+        Top = 15
         Width = 134
-        Height = 24
-        Align = alLeft
+        Height = 19
         Caption = 'Localizar arquivo de origem:'
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitHeight = 13
       end
       object ButtonSelecionarArquivo: TButton
-        Left = 141
-        Top = 1
+        Left = 145
+        Top = 9
         Width = 75
-        Height = 30
-        Align = alLeft
+        Height = 25
         Caption = 'Selecionar'
         TabOrder = 0
-        ExplicitLeft = 176
-        ExplicitTop = 16
-        ExplicitHeight = 25
+        OnClick = ButtonSelecionarArquivoClick
       end
     end
     object Panel2: TPanel
@@ -95,6 +85,7 @@ object FormBackup: TFormBackup
         Align = alRight
         Caption = 'Remover da Lista'
         TabOrder = 0
+        OnClick = ButtonRemoverClick
         ExplicitLeft = 214
         ExplicitHeight = 39
       end
@@ -136,6 +127,7 @@ object FormBackup: TFormBackup
       Align = alTop
       Caption = 'Usar compacta'#231#227'o nods aruivos'
       TabOrder = 0
+      OnClick = CheckBoxCompactacaoClick
       ExplicitLeft = 64
       ExplicitTop = 56
       ExplicitWidth = 187
@@ -206,13 +198,15 @@ object FormBackup: TFormBackup
     Align = alTop
     Caption = 'Salvar Configura'#231#245'es'
     TabOrder = 4
+    OnClick = ButtonSalvarConfiguracoesClick
     ExplicitLeft = 288
     ExplicitTop = 280
     ExplicitWidth = 75
   end
   object OpenDialogAdicionarArquivo: TOpenDialog
+    InitialDir = 'C:\Users'
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
     Left = 8
-    Top = 56
+    Top = 64
   end
 end

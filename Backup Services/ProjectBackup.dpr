@@ -2,7 +2,8 @@ program ProjectBackup;
 
 uses
   Vcl.Forms,
-  UnitBackup in 'UnitBackup.pas' {FormBackup};
+  UnitBackup in 'UnitBackup.pas' {FormBackup},
+  UnitIniciarArquivos in 'UnitIniciarArquivos.pas';
 
 {$R *.res}
 

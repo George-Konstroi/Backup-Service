@@ -11,6 +11,7 @@ object FormBackup: TFormBackup
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBoxBackup: TGroupBox
@@ -30,9 +31,6 @@ object FormBackup: TFormBackup
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 0
-    ExplicitLeft = -160
-    ExplicitTop = 8
-    ExplicitWidth = 669
     object ListBoxBackup: TListBox
       Left = 12
       Top = 65
@@ -41,8 +39,6 @@ object FormBackup: TFormBackup
       Align = alClient
       ItemHeight = 13
       TabOrder = 0
-      ExplicitLeft = 11
-      ExplicitTop = 59
     end
     object Panel1: TPanel
       Left = 12
@@ -56,7 +52,7 @@ object FormBackup: TFormBackup
         Left = 5
         Top = 15
         Width = 134
-        Height = 19
+        Height = 13
         Caption = 'Localizar arquivo de origem:'
       end
       object ButtonSelecionarArquivo: TButton
@@ -76,7 +72,6 @@ object FormBackup: TFormBackup
       Height = 29
       Align = alBottom
       TabOrder = 2
-      ExplicitTop = 196
       object ButtonRemover: TButton
         Left = 205
         Top = 1
@@ -86,8 +81,6 @@ object FormBackup: TFormBackup
         Caption = 'Remover da Lista'
         TabOrder = 0
         OnClick = ButtonRemoverClick
-        ExplicitLeft = 214
-        ExplicitHeight = 39
       end
       object ButtonBackupManual: TButton
         Left = 1
@@ -97,7 +90,7 @@ object FormBackup: TFormBackup
         Align = alLeft
         Caption = 'Backup Manual'
         TabOrder = 1
-        ExplicitHeight = 39
+        OnClick = ButtonBackupManualClick
       end
     end
   end
@@ -118,19 +111,15 @@ object FormBackup: TFormBackup
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 1
-    ExplicitWidth = 448
     object CheckBoxCompactacao: TCheckBox
       Left = 12
       Top = 25
       Width = 406
       Height = 17
       Align = alTop
-      Caption = 'Usar compacta'#231#227'o nods aruivos'
+      Caption = 'Usar compacta'#231#227'o nos aruivos'
       TabOrder = 0
       OnClick = CheckBoxCompactacaoClick
-      ExplicitLeft = 64
-      ExplicitTop = 56
-      ExplicitWidth = 187
     end
   end
   object GroupBoxDestino: TGroupBox
@@ -150,8 +139,6 @@ object FormBackup: TFormBackup
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 2
-    ExplicitWidth = 448
-    ExplicitHeight = 158
     object EditDestino: TEdit
       Left = 12
       Top = 25
@@ -159,10 +146,7 @@ object FormBackup: TFormBackup
       Height = 21
       Align = alTop
       TabOrder = 0
-      Text = 'C:\Backup\'
-      ExplicitLeft = 24
-      ExplicitTop = 32
-      ExplicitWidth = 353
+      Text = 'C:\Backup Service\'
     end
   end
   object RadioGroupTipoCompactacao: TRadioGroup
@@ -183,7 +167,6 @@ object FormBackup: TFormBackup
       'WinRar'
       'WinZip')
     TabOrder = 3
-    ExplicitWidth = 448
   end
   object ButtonSalvarConfiguracoes: TButton
     AlignWithMargins = True
@@ -199,9 +182,6 @@ object FormBackup: TFormBackup
     Caption = 'Salvar Configura'#231#245'es'
     TabOrder = 4
     OnClick = ButtonSalvarConfiguracoesClick
-    ExplicitLeft = 288
-    ExplicitTop = 280
-    ExplicitWidth = 75
   end
   object OpenDialogAdicionarArquivo: TOpenDialog
     InitialDir = 'C:\Users'

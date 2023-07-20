@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2023/07/20 10:06:08.587,=C:\Users\konstroidev\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/07/20 10:08:27.269,C:\Users\konstroidev\Documents\Embarcadero\Studio\Projects\Project.dproj=C:\Users\konstroidev\Documents\Embarcadero\Studio\Projects\Project3.dproj</Transaction>
+    <Transaction>2023/07/20 10:08:54.632,C:\Users\konstroidev\Documents\Backup Services\UnitServico.dfm=C:\Users\konstroidev\Documents\Embarcadero\Studio\Projects\Unit3.dfm</Transaction>
+    <Transaction>2023/07/20 10:08:54.632,C:\Users\konstroidev\Documents\Backup Services\UnitServico.pas=C:\Users\konstroidev\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/07/20 10:09:04.507,C:\Users\konstroidev\Documents\Backup Services\ProjectServico.dproj=C:\Users\konstroidev\Documents\Embarcadero\Studio\Projects\Project.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

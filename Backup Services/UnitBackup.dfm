@@ -111,9 +111,19 @@ object FormBackup: TFormBackup
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 1
-    object CheckBoxCompactacao: TCheckBox
+    object Label1: TLabel
       Left = 12
       Top = 25
+      Width = 406
+      Height = 13
+      Align = alTop
+      Caption = 'Label1'
+      OnClick = Label1Click
+      ExplicitWidth = 31
+    end
+    object CheckBoxCompactacao: TCheckBox
+      Left = 12
+      Top = 38
       Width = 406
       Height = 17
       Align = alTop

@@ -12,6 +12,7 @@ object FormBackup: TFormBackup
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBoxBackup: TGroupBox
@@ -111,25 +112,16 @@ object FormBackup: TFormBackup
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 1
-    object Label1: TLabel
-      Left = 12
-      Top = 25
-      Width = 406
-      Height = 13
-      Align = alTop
-      Caption = 'Label1'
-      OnClick = Label1Click
-      ExplicitWidth = 31
-    end
     object CheckBoxCompactacao: TCheckBox
       Left = 12
-      Top = 38
+      Top = 25
       Width = 406
       Height = 17
       Align = alTop
       Caption = 'Usar compacta'#231#227'o nos aruivos'
       TabOrder = 0
       OnClick = CheckBoxCompactacaoClick
+      ExplicitTop = 38
     end
   end
   object GroupBoxDestino: TGroupBox

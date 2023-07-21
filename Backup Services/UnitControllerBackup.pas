@@ -8,7 +8,6 @@ type
   public
     procedure BackupWithoutWin(pathFileOrigem, pathFileDestino: string);
     procedure BackupWithWin(tipoCompactacao, pathFilesOrigem, pathFileDestino: string);
-    procedure Backup(compactar: Boolean; tipoCompactacao, pathFilesOrigem, pathFileDestino: string);
   end;
 
 var
@@ -25,13 +24,11 @@ procedure TUnitControllerBackup.BackupWithoutWin(pathFileOrigem, pathFileDestino
 var
   nomeDoArquivoDestino, linhadeComando: string;
 begin
-  nomeDoArquivoDestino := FormatDateTime('yyyy-mm-dd hh-nn-ss-zzz', Now);
-  pathFileDestino := '"' + pathFileDestino + '\' + nomeDoArquivoDestino + '"';
-  linhadeComando := 'mkdir ' + pathFileDestino + ' & ' + 'copy' + pathFileOrigem + ' ' + pathFileDestino;
+  nomeDoArquivoDestino := ExtractFileName(pathFileOrigem);
+  pathFileDestino := pathFileDestino + '\' + nomeDoArquivoDestino;
 
-  //CopyFile(PChar(pathFileOrigem), PChar(pathFileDestino), true);
-    //SysErrorMessage(GetLastError);
-  ShellExecute(0, 'open', 'cmd.exe', PChar(linhadeComando), nil, 1);
+  if not CopyFile(PChar(pathFileOrigem), PChar(pathFileDestino), true) then
+    //Writeln(SysErrorMessage(GetLastError));
 end;
 
 procedure TUnitControllerBackup.BackupWithWin(tipoCompactacao, pathFilesOrigem, pathFileDestino: string);
@@ -54,14 +51,6 @@ begin
   end;
 
   ShellExecute(0, 'open', PChar(pathProgramaWin), PChar(linhadeComando), nil, 1);
-end;
-
-procedure TUnitControllerBackup.Backup(compactar: Boolean; tipoCompactacao, pathFilesOrigem, pathFileDestino: string);
-var
-  arquivo: Integer;
-begin
-  if compactar then BackupWithWin(tipoCompactacao, pathFilesOrigem, pathFileDestino)
-  else BackupWithoutWin(pathFilesOrigem, pathFileDestino);
 end;
 
 end.

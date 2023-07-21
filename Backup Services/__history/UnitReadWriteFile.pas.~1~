@@ -1,0 +1,18 @@
+unit UnitReadWriteFile;
+
+interface
+type
+  TUnitReadWriteFile = class(TObject)
+  private
+  public
+  end;
+
+var
+  Backup: TUnitReadWriteFile;
+
+implementation
+
+uses
+  IniFiles, ShellAPI, System.SysUtils, Winapi.Windows;
+
+end.

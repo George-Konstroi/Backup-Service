@@ -26,7 +26,7 @@ implementation
 {$R *.dfm}
 
 uses
-  IniFiles, ShellAPI;
+  IniFiles, ShellAPI, UnitControllerBackup;
 
 procedure ServiceController(CtrlCode: DWord); stdcall;
 begin
@@ -102,12 +102,12 @@ begin
           for I := 0 to Lista.Count - 1 do
             CaminhoArquivo := '"' + Lista.Strings[I] + '" ' + CaminhoArquivo;
 
-          BackupWithWin(Compactar,TipoComp,CaminhoArquivo,Destino);
+          UnitControllerBackup.Backup.BackupWithWin(TipoComp,CaminhoArquivo,Destino);
         end
         else begin
           for I := 0 to Lista.Count - 1 do begin
             CaminhoArquivo := Lista.Strings[I];
-            BackupWithoutWin(Compactar,TipoComp,CaminhoArquivo,Destino);
+            UnitControllerBackup.Backup.BackupWithoutWin(CaminhoArquivo,Destino);
           end;
         end;
 

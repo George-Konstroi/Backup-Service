@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, IniFiles, ShellAPI, UnitControllerBackup, UnitReadWriteFile;
 
 type
   TFormBackup = class(TForm)
@@ -23,18 +23,17 @@ type
     ButtonSalvarConfiguracoes: TButton;
     Panel1: TPanel;
     Panel2: TPanel;
-    Label1: TLabel;
+
     procedure ButtonSelecionarArquivoClick(Sender: TObject);
     procedure ButtonRemoverClick(Sender: TObject);
     procedure CheckBoxCompactacaoClick(Sender: TObject);
     procedure ButtonSalvarConfiguracoesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ButtonBackupManualClick(Sender: TObject);
-    procedure Label1Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
-    procedure BackupWithWin(pathFilesOrigem: string);
-    procedure BackupWithoutWin(pathFileOrigem: string);
+    RWFile: TUnitReadWriteFile;
   public
     { Public declarations }
   end;
@@ -46,64 +45,32 @@ implementation
 
 {$R *.dfm}
 
-uses
-  IniFiles, ShellAPI;
-
-procedure TFormBackup.BackupWithoutWin(pathFileOrigem: string);
-var
-  pathFileDestino: string;
-begin
-  pathFileDestino := EditDestino.Text + '\' + ExtractFileName(pathFileOrigem);
-
-  if not CopyFile(PChar(pathFileOrigem), PChar(pathFileDestino), true) then
-    ShowMessage('Erro ao copiar ' + pathFileOrigem + ' para ' + pathFileDestino + ': ' + SysErrorMessage(GetLastError));
-end;
-
-procedure TFormBackup.BackupWithWin(pathFilesOrigem: string);
-var
-  nomeDoArquivo: string;
-  linhadeComando: string;
-  pathFileDestino: string;
-  pathProgramaWin: string;
-begin
-  if RadioGroupTipoCompactacao.ItemIndex >= 0 then // WinRar
-  begin
-    nomeDoArquivo := ChangeFileExt(FormatDateTime('yyyy-mm-dd hh-nn-ss-zzz', Now), '.rar');
-    pathFileDestino := EditDestino.Text + '\' + nomeDoArquivo;
-    linhadeComando := 'a "' + pathFileDestino + '" ' + pathFilesOrigem;
-    pathProgramaWin := 'C:\Program Files\WinRAR\WinRAR.exe';
-  end
-  // Por limitações da máquina, compactação WinZip não esta disponível
-  else begin // WinZip
-    nomeDoArquivo := ChangeFileExt(FormatDateTime('yyyy-mm-dd hh-nn-ss-zzz', Now), '.zip');
-    pathFileDestino := EditDestino.Text + '\' + ExtractFileName(nomeDoArquivo);
-    linhadeComando := '-A "' + pathFileDestino + '" ' + pathFilesOrigem;
-    pathProgramaWin := 'C:\Program Files (x86)\WinZip\WINZIP32.EXE';
-  end;
-
-  ShellExecute(0, 'open', PChar(pathProgramaWin), PChar(linhadeComando), nil, SW_SHOWNORMAL);
-end;
-
 procedure TFormBackup.ButtonBackupManualClick(Sender: TObject);
 var
   arquivo: Integer;
-  pathFile: string;
+  compactar: Boolean;
+  tipoCompactacao: string;
+  pathFilesOrigem, pathFileDestino: string;
 begin
-  pathFile := '';
+  pathFileDestino := EditDestino.Text;
+  pathFilesOrigem := '';
+  compactar := CheckBoxCompactacao.Checked;
+  tipoCompactacao := '';
 
-  if CheckBoxCompactacao.Checked then begin
-    // Compactar todos os arquivos selecionados em um único arquivo
-    for arquivo := 0 to ListBoxBackup.Count - 1 do
-      pathFile := pathFile + ' "' + ListBoxBackup.Items.Strings[arquivo] + '"';
+  if RadioGroupTipoCompactacao.ItemIndex = 0 then tipoCompactacao := '.rar'
+  else if RadioGroupTipoCompactacao.ItemIndex = 1 then tipoCompactacao := '.rar';
 
-    BackupWithWin(pathFile);
-  end
-  else begin
+  if not compactar then
     for arquivo := 0 to ListBoxBackup.Count - 1 do begin
-      pathFile := ListBoxBackup.Items.Strings[arquivo];
-      BackupWithoutWin(pathFile);
+      pathFilesOrigem := ListBoxBackup.Items.Strings[arquivo];
+      UnitControllerBackup.Backup.BackupWithoutWin(pathFilesOrigem, pathFileDestino)
+    end
+  else begin
+    for arquivo := 0 to ListBoxBackup.Count - 1 do
+      pathFilesOrigem := pathFilesOrigem + ' "' + ListBoxBackup.Items.Strings[arquivo] + '"';
+
+    UnitControllerBackup.Backup.BackupWithWin(tipoCompactacao, pathFilesOrigem, pathFileDestino);
     end;
-  end;
 end;
 
 procedure TFormBackup.ButtonRemoverClick(Sender: TObject);
@@ -112,26 +79,19 @@ begin
 end;
 
 procedure TFormBackup.ButtonSalvarConfiguracoesClick(Sender: TObject);
-var
-  configuracao: TIniFile;
 begin
-  configuracao := nil;
-
   try
-    configuracao := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'Backup.ini');
-
-    if not CheckBoxCompactacao.Checked then configuracao.WriteString('BACKUP','COMPACTAR','N')
+    if not CheckBoxCompactacao.Checked then RWFile.setCompactar(False)
     else begin
-      configuracao.WriteString('BACKUP','COMPACTAR','S');
+      RWFile.setCompactar(True);
 
-      if RadioGroupTipoCompactacao.ItemIndex = 0 then configuracao.WriteString('BACKUP','TIPO','R') //WinRar
-      else configuracao.WriteString('BACKUP','TIPO','Z');                                            //WinZip
+      if RadioGroupTipoCompactacao.ItemIndex = 0 then RWFile.setTipoCompactacao('.rar') //WinRar
+      else RWFile.setTipoCompactacao('.zip'); //WinZip
     end;
 
-    configuracao.WriteString('BACKUP','DESTINO', EditDestino.Text);
-    configuracao.WriteString('BACKUP','ULTIMO', FormatDateTime('dd/mm/yyyy', Date));
+    RWFile.setDestino(EditDestino.Text);
+    RWFile.atualizarDataModificacao;
   finally
-    configuracao.Free;
   end;
 
   ListBoxBackup.Items.SaveToFile(ExtractFilePath(Application.ExeName) + 'Lista.ini');
@@ -154,33 +114,28 @@ begin
 end;
 
 procedure TFormBackup.FormCreate(Sender: TObject);
-var
-  configuracoes: TIniFile;
 begin
-  configuracoes := nil;
+  RWFile.Create;
 
   try
-    configuracoes := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'Backup.ini');
-
-    if configuracoes.ReadString('BACKUP','COMPACTAR','') = 'S' then
+    if RWFile.getCompactar then
     begin
       CheckBoxCompactacao.Checked := True;
 
-      if configuracoes.ReadString('BACKUP','TIPO','') = 'R' then RadioGroupTipoCompactacao.ItemIndex := 0
+      if RWFile.getTipoCompactacao = '.rar' then RadioGroupTipoCompactacao.ItemIndex := 0
       else RadioGroupTipoCompactacao.ItemIndex := 1;
     end;
 
-    EditDestino.Text := configuracoes.ReadString('BACKUP','DESTINO','');
+    EditDestino.Text := RWFile.getDestino;
   finally
-    configuracoes.Free;
   end;
 
   ListBoxBackup.Items.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Lista.ini');
 end;
 
-procedure TFormBackup.Label1Click(Sender: TObject);
+procedure TFormBackup.FormDestroy(Sender: TObject);
 begin
-  Label1.Caption := ExtractFilePath(ParamStr(0));
+  RWFile.Free;
 end;
 
 end.

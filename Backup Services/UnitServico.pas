@@ -117,7 +117,7 @@ begin
     except end;
   finally
     conf.Free;
-    Lista.Free;
+    //Lista.Free;
   end;
 end;
 

@@ -1,10 +1,5 @@
 object mServico: TmServico
   OldCreateOrder = False
-  Dependencies = <
-    item
-      Name = 'FirebirdServerDefaultInstance'
-      IsGroup = False
-    end>
   DisplayName = 'Servi'#231'o de Backup Srmaia'
   Height = 150
   Width = 215
